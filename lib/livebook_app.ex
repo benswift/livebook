@@ -8,6 +8,7 @@ if Mix.target() == :app do
 
     @impl true
     def init(_) do
+      raise "Foo"
       {:ok, pid} = ElixirKit.start()
       ref = Process.monitor(pid)
 

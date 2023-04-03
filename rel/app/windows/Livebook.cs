@@ -27,12 +27,19 @@ static class LivebookMain
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LivebookApp(url, logPath));
+            System.Console.WriteLine("Calling Application.Run");
+            Application.ApplicationExit += (x, y) => {
+                System.Console.WriteLine("In ApplicationExit");
 
-            var code = ElixirKit.API.Stop();
-            if (code == 0) { return; }
-            var message = $"Livebook exited with exit code {code}.\r\nLogs available at: {logPath}";
-            MessageBox.Show(new Form() { TopMost = true }, message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                System.Console.WriteLine("Calling ElixirKit.API.Stop()");
+                var code = ElixirKit.API.Stop();
+                System.Console.WriteLine("Called ElixirKit.API.Stop()");
+                if (code == 0) { return; }
+                var message = $"Livebook exited with exit code {code}.\r\nLogs available at: {logPath}";
+                MessageBox.Show(new Form() { TopMost = true }, message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
+            Application.Run(new LivebookApp(url, logPath));
+            System.Console.WriteLine("Called Application.Run");
         }
         else
         {
@@ -90,7 +97,9 @@ class LivebookApp : ApplicationContext
             logPath: logPath,
             exited: (exitCode) =>
             {
+                System.Console.WriteLine("Calling Application.Exit()");
                 Application.Exit();
+                System.Console.WriteLine("Called  Application.Exit()");
             }
         );
 
@@ -113,6 +122,7 @@ class LivebookApp : ApplicationContext
 
     private void threadExit(object? sender, EventArgs e)
     {
+        System.Console.WriteLine("In threadExit");
         notifyIcon.Visible = false;
     }
 
