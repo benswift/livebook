@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=hexpm/elixir:1.14.2-erlang-24.3.4.2-debian-bullseye-20210902-slim
+ARG BASE_IMAGE=hexpm/elixir:1.14.4-erlang-25.3.2-debian-bullseye-20230227-slim
 
 # Stage 1
 # Builds the Livebook release
